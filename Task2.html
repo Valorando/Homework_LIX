@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="Style_for_task2.css">
+    <script type="text/javascript" src="Script_for_task2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Task2</title>
+</head>
+<body>
+    <section id="container">
+        <section id="s1">
+            <div id="b1"></div>
+            <div id="divider1">=</div>
+            <div id="b2"></div>
+        </section>
+        <section id="s2">
+            <div id="divider2"><</div>
+            <div id="b3"></div>
+            <div id="divider3">=</div>
+            <div id="b4"></div>
+        </section>
+    </section>
+
+    <script>
+        $(document).ready(function() {
+            var isDraggingDivider1 = false;
+            var isDraggingDivider3 = false;
+
+            var startYDivider1, initialTopDivider1;
+            var startYDivider3, initialTopDivider3;
+            var initialHeightB1, initialHeightB2;
+            var initialHeightB3, initialHeightB4;
+
+            $('#divider1').mousedown(function(e) {
+                isDraggingDivider1 = true;
+                
+                startYDivider1 = e.clientY;
+                initialTopDivider1 = $('#divider1').position().top;
+                initialHeightB1 = $('#b1').height();
+                initialHeightB2 = $('#b2').height();
+                
+                e.preventDefault();
+            });
+
+            $('#divider3').mousedown(function(e) {
+                isDraggingDivider3 = true;
+                
+                startYDivider3 = e.clientY;
+                initialTopDivider3 = $('#divider3').position().top;
+                initialHeightB3 = $('#b3').height();
+                initialHeightB4 = $('#b4').height();
+                
+                e.preventDefault();
+            });
+
+            $(document).mousemove(function(e) {
+                if (isDraggingDivider1) 
+                {
+                    var deltaYDivider1 = e.clientY - startYDivider1;
+                    var newHeightB1 = initialHeightB1 + deltaYDivider1;
+                    var newHeightB2 = initialHeightB2 - deltaYDivider1;
+                    
+                    if (newHeightB1 >= 100 && newHeightB2 >= 100) 
+                    {
+                        $('#divider1').css('top', initialTopDivider1 + deltaYDivider1);
+                        $('#b1').css('height', newHeightB1);
+                        $('#b2').css('height', newHeightB2);
+                    }
+                }
+
+                if (isDraggingDivider3) 
+                {
+                    var deltaYDivider3 = e.clientY - startYDivider3;
+                    var newHeightB3 = initialHeightB3 + deltaYDivider3;
+                    var newHeightB4 = initialHeightB4 - deltaYDivider3;
+                    
+                    if (newHeightB3 >= 100 && newHeightB4 >= 100) 
+                    {
+                        $('#divider3').css('top', initialTopDivider3 + deltaYDivider3);
+                        $('#b3').css('height', newHeightB3);
+                        $('#b4').css('height', newHeightB4);
+                    }
+                }
+            });
+
+            $(document).mouseup(function() 
+            {
+                isDraggingDivider1 = false;
+                isDraggingDivider3 = false;
+            });
+        });
+
+        
+
+        $(document).ready(function() {
+            var isS2Expanded = false;
+
+            $('#divider2').click(function() {
+                if (!isS2Expanded) 
+                {
+                    $('#s1').hide(); 
+                    $('#s2').css({
+                        'position': 'absolute',
+                        'left': '0',
+                        'top': '0',
+                        'width': '100%',
+                        'z-index': '1'
+                    });
+                    $('#divider2').text('>'); 
+                    $('#divider2').css({
+                        'position': 'absolute',
+                        'left': '0'
+                    });
+                    isS2Expanded = true; 
+                } 
+                
+                else 
+                {
+                    
+                    $('#s1').show(); 
+                    $('#s2').css({
+                        'position': 'absolute',
+                        'left': '30%', 
+                        'top': '0',
+                        'width': '70%',
+                        'z-index': 'auto' 
+                    });
+                    $('#divider2').text('<'); 
+                    isS2Expanded = false; 
+                }
+            });
+        });
+    </script>
+</body>
+</html>
